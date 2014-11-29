@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# shellapp
+#
+# Turn a shell script into an OS X application.
+#
+# Usage:
+#
+#   shellapp example.sh example.app
+
+require 'tempfile'
+
+source = ARGV[0]
+target = ARGV[1]
+
+if ARGV[0] == "-h" || !ARGV[0] || !ARGV[1]
+  puts  "Description: Turn a shell script into an OS X application.\n" +
+        "Usage: shellapp source destination.app"
+else
+  if File.exists?(source)
+    input = File.open(source).read
+  else
+    input = source
+  end
+
+  applescript = %Q|#!/usr/bin/osascript\n| +
+                %Q|do shell script "#{input}"|
+
+
+  t = Tempfile.new('applescript', '/tmp').tap do |file|
+    file.write(applescript)
+  end
+  t.rewind
+
+  %x[osacompile -o #{target} #{t.path}]
+end
