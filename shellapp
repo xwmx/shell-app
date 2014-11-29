@@ -15,6 +15,8 @@ target = ARGV[1]
 if ARGV[0] == "-h" || !ARGV[0] || !ARGV[1]
   puts  "Description: Turn a shell script into an OS X application.\n" +
         "Usage: shellapp source destination.app"
+elsif target !~ /.app$/
+  puts "Error: Target must have a .app extension."
 else
   if File.exists?(source)
     input = File.open(source).read
