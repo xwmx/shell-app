@@ -25,6 +25,8 @@ if ARGV[0] == "-h" || !ARGV[0] || !ARGV[1]
         "Usage: shellapp source destination.app"
 elsif target !~ /.app$/
   puts "Error: Target must have a .app extension."
+elsif File.exists?(target)
+  puts "Error: File already exists at target location."
 else
   if File.exists?(source)
     input = File.open(source).read
