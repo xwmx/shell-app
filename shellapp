@@ -17,10 +17,11 @@
 
 require 'tempfile'
 
-APPLESCRIPT_TEMPLATE = %Q|#!/usr/bin/osascript\n| +
-%Q|set current_path to (path to me)\n| +
-%Q|do shell script "." & POSIX path of current_path & "Contents/Resources/Scripts/shellscript"|
-
+APPLESCRIPT_TEMPLATE = <<-TEMPLATE
+#!/usr/bin/osascript
+set current_path to (path to me)
+do shell script "." & POSIX path of current_path & "Contents/Resources/Scripts/shellscript"
+TEMPLATE
 
 source = ARGV[0]
 target = ARGV[1]
