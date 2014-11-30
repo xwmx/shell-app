@@ -24,9 +24,10 @@ wrapper which is then compiled with `osacompile`. When the output file
 includes the .app extension, `osacompile` outputs an application bundle
 wrapping the AppleScript file.
 
-## Similar Tools
+## See also
 
 - https://gist.github.com/mathiasbynens/674099
   - Creates very simple applications, but they are too simple to be
     recognized by Spotlight as applications.
+- https://mathiasbynens.be/notes/shell-script-mac-apps
 - http://www.sveinbjorn.org/platypus
