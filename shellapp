@@ -17,6 +17,11 @@
 
 require 'tempfile'
 
+APPLESCRIPT_TEMPLATE = %Q|#!/usr/bin/osascript\n| +
+%Q|set current_path to (path to me)\n| +
+%Q|do shell script "." & POSIX path of current_path & "Contents/Resources/Scripts/shellscript"|
+
+
 source = ARGV[0]
 target = ARGV[1]
 
@@ -28,20 +33,27 @@ elsif target !~ /.app$/
 elsif File.exists?(target)
   puts "Error: File already exists at target location."
 else
+  # If input is a file, read the file, otherwise just use source.
   if File.exists?(source)
     input = File.open(source).read
   else
     input = source
   end
 
-  applescript = %Q|#!/usr/bin/osascript\n| +
-                %Q|do shell script "#{input}"|
-
-
+  # Write the applescript template to a tempfile for compilation
   t = Tempfile.new('applescript', '/tmp').tap do |file|
-    file.write(applescript)
+    file.write(APPLESCRIPT_TEMPLATE)
   end
   t.rewind
 
+  # Use osacompile to create the application bundle
   %x[osacompile -o #{target} #{t.path}]
+
+  # Place the shell script content into a file saved in the application
+  # bundle's script directory. This file will then be called by the AppleScript
+  script_path = File.join(target, 'Contents', 'Resources', 'Scripts', 'shellscript')
+  File.open(script_path, 'w') do |file|
+    file.write(input)
+    file.chmod(0755)
+  end
 end
