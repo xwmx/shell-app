@@ -14,6 +14,8 @@
 # Usage:
 #
 #   shellapp example.sh example.app
+#
+# William Melody, 2014 - https://github.com/alphabetum/shellapp/
 
 require 'tempfile'
 
