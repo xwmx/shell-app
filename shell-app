@@ -15,7 +15,7 @@
 #
 #   shell-app example.sh example.app
 #
-# William Melody, 2014 - https://github.com/alphabetum/shellapp/
+# William Melody, 2014 - https://github.com/alphabetum/shell-app/
 
 require 'tempfile'
 
